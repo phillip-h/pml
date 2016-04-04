@@ -21,6 +21,8 @@ modules you need into your project, and be assured that you only have
 the files you actually need. Alternativly, you can just copy the entire
 `pml/` directory.
 
+`./extract.sh --clean` will remove generated files.
+
 # documentation
 
 Each module has a documentation file in `doc/` that describes it's purpose

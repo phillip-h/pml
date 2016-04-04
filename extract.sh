@@ -16,11 +16,18 @@ EXIT_IO_ERROR=-2
 ##############
 # arg parsing
 for arg in "$@"; do
-    if [ "$arg" = clean ]; then
+    if [ "$arg" = "-c" ] || [ "$arg" = "--clean" ]; then
         rm -rf "$EXTRACT_DIR"
         exit "$EXIT_OK"
+    elif [ "$arg" = "-h" ] || [ "$arg" = "--help" ]; then
+        printf "syntax: extract.sh [args]\n"
+        printf "arguments:\n"
+        printf " -h, --help  -> print script usage and exit.\n"
+        printf " -c, --clean -> remove generated files.\n";
+        exit "$EXIT_OK"
     else 
-        printf "unknown argument $arg.\n"
+        printf "unknown argument '$arg'.\n"
+        printf "run extract.sh --help for more information.\n"
         exit "$EXIT_BAD_ARG"
     fi
 done
