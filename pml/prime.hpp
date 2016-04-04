@@ -52,7 +52,7 @@ inline std::vector<uint64_t> eratosthenes(uint64_t max)
     return primes;
 }
 
-inline std::vector<uint64_t> primeSieve(uint64_t max)
+inline std::vector<uint64_t> prime_sieve(uint64_t max)
 {
    return eratosthenes(max); 
 }
@@ -81,13 +81,13 @@ inline std::vector<uint64_t> factorize(uint64_t val,
 
 inline std::vector<uint64_t> factorize(uint64_t val)
 {
-    return factorize(val, primeSieve(val));
+    return factorize(val, prime_sieve(val));
 }
 
-inline bool isPrime(uint64_t val)
+inline bool is_prime(uint64_t val)
 {
-    std::vector<uint64_t> factors = factorize(val);
-    return factors.size() == 1 && factors.at(0) == val;
+    std::vector<uint64_t> primes = prime_sieve(val);
+    return primes.size() != 0 && primes.at(primes.size() - 1) == val;
 }
 
 #endif

@@ -30,7 +30,7 @@ inline uint64_t totient(uint64_t val, std::vector<uint64_t> primes)
 
 inline uint64_t totient(uint64_t val)
 {
-    return totient(val, primeSieve(val));
+    return totient(val, prime_sieve(val));
 }
 
 #endif
