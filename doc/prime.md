@@ -13,7 +13,7 @@ numbers for primality, and factoring numbers.
 These are the functions you will probably want to use.
 
 ```C++
-    vector<uint64_t> primeSieve(uint64_t max);  
+    vector<uint64_t> prime_sieve(uint64_t max);  
 ```
 
 Return a vector of the primes in [1, max]
@@ -26,8 +26,12 @@ Return a vector of the primes in [1, max]
 Return a vector containing the prime factorization of `val`. If a
 vector of primes is not provided, it will be created with `primeSieve()`.
 
+Please note that these factorization methods are quite slow and have
+huge memory complexity. If speed is essential or you will be factoring
+large values, `quick_factorize()` from `factor.hpp` is preferable.
+
 ```C++
-    bool isPrime(uint64_t val);
+    bool is_prime(uint64_t val);
 ```
 
 Return `true` if `val` is a prime number and `false` if it is composite.
@@ -47,5 +51,5 @@ interest to the average user.
 ```
 
 The Sieve of Erathosthenes and the Sieve of Atkin, respectivly. The sieve
-of Atkin is currently unfinished, and as such `primeSieve()` currently
+of Atkin is currently unfinished, and as such `prime_sieve()` currently
 relies on the Sieve of Erathosthenes.
