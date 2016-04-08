@@ -47,6 +47,26 @@ if [ ! -d "$SOURCE_DIR" ]; then
     exit "$EXIT_IO_ERROR"
 fi
 
+###############################################
+# function to recursively extract dependancies
+extract-deps()
+{
+    cp "$1" "$EXTRACT_DIR"/"$dir"
+    local line
+    
+    while read -r line; do
+        if [[ "$line" = \#include\ \"*\" ]]; then
+            line=${line#"#include \""}
+            line=${line%"\""}
+            if [ -f "$SOURCE_DIR"/"$line" ]; then
+                extract-deps "$SOURCE_DIR"/"$line"
+            else
+                printf "error--$file depends on unknown file '$line'!\n"
+            fi
+        fi
+    done < "$1"
+}
+
 #########################################
 # iterate through headers and seperate
 # into modules
@@ -55,18 +75,7 @@ for file in "$SOURCE_DIR"/*; do
     dir=${file#"$SOURCE_DIR"/}
     dir=${dir%.hpp}
     mkdir "$EXTRACT_DIR"/"$dir"
-    cp "$file" "$EXTRACT_DIR"/"$dir"
-    while read -r line; do
-        if [[ "$line" = \#include\ \"*\" ]]; then
-            line=${line#"#include \""}
-            line=${line%"\""}
-            if [ -f "$SOURCE_DIR"/"$line" ]; then
-                cp "$SOURCE_DIR"/"$line" "$EXTRACT_DIR"/"$dir" 
-            else
-                printf "error--$file includes unknown file '$line'!\n"
-            fi
-        fi
-    done < "$file"
+    extract-deps "$file"
     ((count++))
 done
 
