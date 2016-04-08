@@ -60,7 +60,8 @@ inline void common_denominator(int64_t &numa, int64_t &dena,
     denb *= tmp;
 }
 
-inline int frac_comp(int64_t numa, int64_t dena, int64_t numb, int64_t denb)
+inline int frac_comp(int64_t numa, int64_t dena,
+                     int64_t numb, int64_t denb)
 {
     if (numa == numb && dena == denb)
         return 0;
