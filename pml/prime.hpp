@@ -43,7 +43,7 @@ inline std::vector<uint64_t> eratosthenes(uint64_t max)
     {
         if (sieve.at(val) != false) {
             primes.push_back(val);
-            for (uint64_t i = val; i < sieve.size(); i += val)  
+            for (uint64_t i = val; i < max + 1; i += val)  
                 sieve[i] = false;
         }
         val++;
