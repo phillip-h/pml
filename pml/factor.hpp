@@ -67,10 +67,11 @@ inline std::vector<uint64_t> rho(uint64_t val)
     {
         fac = rho_f(val);
         if (fac != 1) {
-            if (fac == val)
-                tmp_factor = {fac};
-            else
-                factors.push_back(fac);
+            if (fac < 1042 || fac == val) { 
+                tmp_factor = factorize(fac);
+            } else {
+                tmp_factor = rho(fac);
+            }
             factors.insert(factors.begin(), tmp_factor.begin(),
                                             tmp_factor.end());
             val /= fac;
