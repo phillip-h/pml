@@ -2,6 +2,7 @@
 #define __PML_PRIME__
 
 #include <algorithm>
+#include <cmath>
 #include <cstdint>
 #include <vector>
 
@@ -9,23 +10,74 @@ inline std::vector<uint64_t> atkin(uint64_t max)
 {
     std::vector<uint64_t> primes;
     
-    if (max <= 2)
+    if (max >= 2)
         primes.push_back(2);
-    if (max <= 3)
+    if (max >= 3)
         primes.push_back(3);
-    if (max <= 5)
+    if (max >= 5)
         primes.push_back(5);
     if (max < 6)
         return primes;
 
     std::vector<bool> sieve(max + 1);
-    std::fill(sieve.begin(), sieve.end(), true);
+    std::fill(sieve.begin(), sieve.end(), false);
 
+    uint64_t limit = sqrt(max + 1);
     uint64_t mod;
-    for (uint64_t val = 6; val <= max; val++)
+    uint64_t index;
+    for (uint64_t x = 1; x <= limit; x++)
     {
-        mod = val % 60;   
+        for (uint64_t y = 1; y <= limit; y++)
+        {
+            index = 4 * x * x + y * y;
+            if (index <= max) {
+                mod = index % 60;
+                if (mod == 1 || mod == 13 || mod == 17 || mod == 29 ||
+                    mod == 37 || mod == 41 || mod == 49 || mod == 53) {
+                    sieve.at(index) = !sieve.at(index);
+                }
+            }
+
+            index = 3 * x * x + y * y;
+            if (index <= max) {
+                mod = index % 60;
+                if (mod == 7 || mod == 19 || mod == 31 || mod == 43) {
+                    sieve.at(index) = !sieve.at(index);
+                }
+            }
+          
+            if (x <= y)
+                continue;
+
+            index = 3 * x * x - y * y;
+            if (index <= max) {
+                mod = index % 60;
+                if (mod == 11 || mod == 23 || mod == 47 || mod == 59) {
+                    sieve.at(index) = !sieve.at(index);
+                }
+            }
+        }
     }
+
+    uint64_t val;
+    for (uint64_t i = 7; i <= limit; i++)
+    {
+        if (sieve[i]) {
+            val = i * i;
+            for (uint64_t k = val; k <= max; k += val)
+            {
+                sieve[k] = false;
+            }
+        }
+    }
+
+    for (uint64_t i = 7; i <= max; i++)
+    {
+        if (sieve[i])
+            primes.push_back(i);
+    }
+
+    return primes;
 }
 
 inline std::vector<uint64_t> eratosthenes(uint64_t max)
@@ -54,7 +106,7 @@ inline std::vector<uint64_t> eratosthenes(uint64_t max)
 
 inline std::vector<uint64_t> prime_sieve(uint64_t max)
 {
-   return eratosthenes(max); 
+   return atkin(max); 
 }
 
 inline std::vector<uint64_t> factorize(uint64_t val, 
