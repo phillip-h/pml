@@ -61,25 +61,16 @@ inline std::vector<uint64_t> rho(uint64_t val)
     if (val == 0)
         return factors;
  
-    const uint64_t MAX_REDUCE = 100000;
-    std::vector<uint64_t> primes;
-
     uint64_t fac;
     std::vector<uint64_t> tmp_factor;
     while (val != 1)
     {
         fac = rho_f(val);
         if (fac != 1) {
-            if (fac < MAX_REDUCE) {
-                if (primes.size() == 0)
-                    primes = prime_sieve(MAX_REDUCE);
-                tmp_factor = factorize(fac, primes);
-            } else {
-                if (fac == val)
-                    tmp_factor = {fac};
-                else
-                    factors.push_back(fac);
-            }
+            if (fac == val)
+                tmp_factor = {fac};
+            else
+                factors.push_back(fac);
             factors.insert(factors.begin(), tmp_factor.begin(),
                                             tmp_factor.end());
             val /= fac;
