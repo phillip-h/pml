@@ -50,6 +50,6 @@ interest to the average user.
     vector<uint64_t> atkin(uint64_t max);
 ```
 
-The Sieve of Erathosthenes and the Sieve of Atkin, respectivly. The sieve
-of Atkin is currently unfinished, and as such `prime_sieve()` currently
-relies on the Sieve of Erathosthenes.
+The Sieve of Erathosthenes and the Sieve of Atkin, respectivly.
+`prime_sieve()` uses the Sieve of Atkin by default, which is better in
+most ways and should be prefered over the Sieve of Eratosthenes.
