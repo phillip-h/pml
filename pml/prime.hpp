@@ -22,7 +22,7 @@ inline std::vector<uint64_t> atkin(uint64_t max)
     std::vector<bool> sieve(max + 1);
     std::fill(sieve.begin(), sieve.end(), false);
 
-    uint64_t limit = sqrt(max + 1);
+    const uint64_t limit = sqrt(max + 1);
     uint64_t mod;
     uint64_t index;
     for (uint64_t x = 1; x <= limit; x++)
@@ -110,7 +110,7 @@ inline std::vector<uint64_t> prime_sieve(uint64_t max)
 }
 
 inline std::vector<uint64_t> factorize(uint64_t val, 
-                                       std::vector<uint64_t> primes)
+                                 const std::vector<uint64_t> &primes)
 {
     if (val <= 1)
         return std::vector<uint64_t>();
