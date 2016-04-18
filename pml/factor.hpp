@@ -54,7 +54,15 @@ inline uint64_t rho_f(uint64_t val)
     return factor;
 }
 
-inline std::vector<uint64_t> rho(uint64_t val)
+const uint64_t MIN_RHO_FACTOR = pow(2, 20);
+
+inline std::vector<uint64_t> quick_factorize(uint64_t val,
+                                             std::vector<uint64_t> &fac,
+                                       const std::vector<uint64_t> &primes,
+                                             bool recurse = false);
+
+inline std::vector<uint64_t> rho(uint64_t val, 
+                           const std::vector<uint64_t> &primes)
 {
     std::vector<uint64_t> factors;
     
@@ -62,18 +70,11 @@ inline std::vector<uint64_t> rho(uint64_t val)
         return factors;
  
     uint64_t fac;
-    std::vector<uint64_t> tmp_factor;
     while (val != 1)
     {
         fac = rho_f(val);
         if (fac != 1) {
-            if (fac < 1042 || fac == val) { 
-                tmp_factor = factorize(fac);
-            } else {
-                tmp_factor = rho(fac);
-            }
-            factors.insert(factors.begin(), tmp_factor.begin(),
-                                            tmp_factor.end());
+            quick_factorize(fac, factors, primes, true);
             val /= fac;
         } else {
             break;
@@ -83,9 +84,11 @@ inline std::vector<uint64_t> rho(uint64_t val)
     return factors;
 }
 
-inline std::vector<uint64_t> quick_factorize(uint64_t val)
+inline std::vector<uint64_t> quick_factorize(uint64_t val,
+                                             std::vector<uint64_t> &factors,
+                                       const std::vector<uint64_t> &primes,
+                                             bool recurse)
 {
-    std::vector<uint64_t> factors;
     if (val == 0)
         return factors;
 
@@ -94,24 +97,45 @@ inline std::vector<uint64_t> quick_factorize(uint64_t val)
         val >>= 1;
         factors.push_back(2);
     }
-    
-    std::vector<uint64_t> other_factors = rho(val);
-    factors.insert(factors.end(), other_factors.begin(), 
-                                  other_factors.end());
-    
-    uint64_t mul = 1;
-    for (uint64_t u : factors)
-        mul *= u;
 
-    if (mul != val) {
-        other_factors = factorize(val / mul);
+    if (val <= MIN_RHO_FACTOR) {
+        std::vector<uint64_t> other_factors = factorize(val, primes);
         factors.insert(factors.end(), other_factors.begin(), 
                                       other_factors.end());
+        return factors;
     }
 
-    std::sort(factors.begin(), factors.end());
+    if (recurse) {
+        if (primes.at(primes.size() - 1) < val) {
+            std::vector<uint64_t> other_factors = factorize(val);
+            factors.insert(factors.end(), other_factors.begin(), 
+                                          other_factors.end());
+        } else {
+            std::vector<uint64_t> other_factors = factorize(val, primes);
+            factors.insert(factors.end(), other_factors.begin(), 
+                                          other_factors.end());
+        }
+        return factors;
+    }
+
+    std::vector<uint64_t> other_factors = rho(val, primes);
+    factors.insert(factors.end(), other_factors.begin(), 
+                                  other_factors.end());
 
     return factors;
 }
 
+inline std::vector<uint64_t> quick_factorize(uint64_t val,
+                                       const std::vector<uint64_t> &primes)
+{
+    std::vector<uint64_t> factors;
+    quick_factorize(val, factors, primes);
+    return factors;
+}
+
+inline std::vector<uint64_t> quick_factorize(uint64_t val)
+{
+    const std::vector<uint64_t> primes = prime_sieve(val);
+    return quick_factorize(val, primes);
+}
 #endif
