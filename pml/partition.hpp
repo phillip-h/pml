@@ -7,6 +7,7 @@ const int64_t MAX_PARTITION_K = 416;
 
 inline uint64_t general_pent(int64_t k)
 {
+    k += 2;
     if ((k & 0x01) == 1)
        k *= -1;
     k /= 2;
@@ -23,7 +24,7 @@ inline uint64_t partition(int64_t k, uint64_t* cache)
         return cache[k];
 
     uint64_t sum = 0;
-    uint64_t sub = 2;
+    uint64_t sub = 0;
     int8_t neg = 0;
     uint64_t pent_ = general_pent(sub);
     while (pent_ <= (uint64_t) k)
