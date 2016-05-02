@@ -15,6 +15,7 @@ inline std::vector<unsigned> digitize(uint64_t val)
         val /= 10;
     }
 
+    std::reverse(digits.begin(), digits.end());
     return digits;
 }
 
