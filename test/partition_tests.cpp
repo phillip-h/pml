@@ -2,9 +2,9 @@
 
 #include "../pml/partition.hpp"
 
-const char* tag = "[partition]";
+const char* part_tag = "[partition]";
 
-TEST_CASE("validate partition(k)", tag)
+TEST_CASE("validate partition(k)", part_tag)
 {
     SECTION("validate partition calculation")
     { 
@@ -31,7 +31,7 @@ TEST_CASE("validate partition(k)", tag)
     }
 }
 
-TEST_CASE("validate general_pent(k)", tag)
+TEST_CASE("validate general_pent(k)", part_tag)
 {
     REQUIRE(general_pent(0) == 1);
     REQUIRE(general_pent(1) == 2);
