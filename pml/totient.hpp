@@ -6,26 +6,43 @@
 #include <string>
 #include <vector>
 
+#include "factor.hpp"
 #include "prime.hpp"
 
 const std::string PHI_SYMBOL = "\u03C6";
 
-inline uint64_t totient_f(uint64_t val, std::vector<uint64_t> factors)
+inline uint64_t totient(uint64_t val, 
+                        const std::vector<uint64_t> &primes)
 {
-    factors.erase(std::unique(factors.begin(), factors.end()),
-                  factors.end());
+    if (val <= 2)
+        return 1;
 
-    unsigned totient = val;
-    for (unsigned i = 0; i < factors.size(); i++)
+    if (std::find(primes.begin(), primes.end(), val) != primes.end())
+        return val - 1;
+
+    uint64_t totient = val;
+
+    while ((val & 0x01) == 0)
     {
-       totient *= (1 - (1.0 / factors.at(i)));  
+        totient *= (1 - (1.0 / 2.0));
+        val >>= 1;
     }
-    return totient;
-}
 
-inline uint64_t totient(uint64_t val, std::vector<uint64_t> primes)
-{
-    return totient_f(val, factorize(val, primes));
+    for (unsigned i = 0; i < primes.size(); i++)
+    {
+        if (primes.at(i) > val)
+            break;
+
+        if (val % primes.at(i) == 0) {
+            totient *= (1 - (1.0 / primes.at(i)));
+            do 
+            {
+                val /= primes.at(i);
+            } while (val % primes.at(i) == 0);
+        }
+    }
+
+    return totient;
 }
 
 inline uint64_t totient(uint64_t val)
