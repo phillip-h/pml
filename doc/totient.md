@@ -6,8 +6,7 @@ functions for working with Euler's totient function
 `totient.hpp` contains functions for evaluating Euler's totient
 function.
 
-`totient.hpp` depends on `primes.hpp` for factorization and 
-generation of primes.
+`totient.hpp` depends on `primes.hpp` for generation of primes.
 
 # primary functions
 

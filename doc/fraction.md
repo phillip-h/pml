@@ -33,6 +33,14 @@ is not.
 
 Convert the value `dec` into a reduced fraction.
 
+```C++
+    void parse_fraction(string string, int64_t &numerator,
+                                       int64_t &denominator);
+```
+
+Parse `string` into a fraction pair. After the seperating character
+`/` is found, the parts are seperated using `std::stoll()`.
+
 note--this function is unable to parse repeating decimals! `1.3333` will
 return `13333/10000`, not `4/3`!
 
