@@ -2,8 +2,32 @@
 #define __PML_FRACTION__
 
 #include <cmath>
+#include <cstdlib>
+#include <string>
 
 #include "factor.hpp"
+
+inline void parse_fraction(std::string frac, int64_t &num,
+                                             int64_t &den)
+{
+    unsigned pos = 0;
+    for (unsigned i = 1; i < frac.size(); i++)
+    {
+        if (frac.at(i) == '/') {
+            pos = i;
+            break;
+        }
+    }
+
+    if (pos == 0) {
+        num = 0;
+        den = 0;
+        return;
+    }
+
+    num = std::stoll(frac.substr(0, pos));
+    den = std::stoll(frac.substr(pos + 1, frac.size() - 1));
+}
 
 inline void reduce(int64_t &num, int64_t &den)
 {
