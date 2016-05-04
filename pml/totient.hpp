@@ -22,12 +22,6 @@ inline uint64_t totient(uint64_t val,
 
     uint64_t totient = val;
 
-    while ((val & 0x01) == 0)
-    {
-        totient *= (1 - (1.0 / 2.0));
-        val >>= 1;
-    }
-
     for (unsigned i = 0; i < primes.size(); i++)
     {
         if (primes.at(i) > val)
