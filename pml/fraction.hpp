@@ -31,6 +31,9 @@ inline void parse_fraction(std::string frac, int64_t &num,
 
 inline void reduce(int64_t &num, int64_t &den)
 {
+    if (num == 0 || den == 0)
+        return;
+
     uint64_t numv = num >= 0 ? num : -1 * num;
     uint64_t denv = den >= 0 ? den : -1 * den;
 
@@ -91,6 +94,9 @@ inline int frac_comp(int64_t numa, int64_t dena,
         return 0;
 
     common_denominator(numa, dena, numb, denb);
+
+    if (numa == numb)
+        return 0;
     return numa > numb ? 1 : -1;
 }
 
