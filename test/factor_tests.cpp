@@ -6,12 +6,19 @@ using std::vector;
 
 const char* factor_tag = "[factor]";
 
-TEST_CASE("validate gdc()", factor_tag)
+TEST_CASE("validate gcd()", factor_tag)
 {
-    REQUIRE(gdc(2, 1) == gdc(1, 2));
-    REQUIRE(gdc(0, 0) == 0);
-    REQUIRE(gdc(0, 10) == 10);
-    REQUIRE(gdc(8, 12) == 4);
+    REQUIRE(gcd(2, 1) == gcd(1, 2));
+    REQUIRE(gcd(0, 0) == 0);
+    REQUIRE(gcd(0, 10) == 10);
+    REQUIRE(gcd(8, 12) == 4);
+}
+
+TEST_CASE("validate gcd_r()", factor_tag)
+{
+    REQUIRE(gcd_r(0, 10) == 10);
+    REQUIRE(gcd_r(20, 13) == gcd_r(13, 20));
+    REQUIRE(gcd_r(161362, 514214) == gcd(161362, 514214));
 }
 
 TEST_CASE("validate lcm()", factor_tag)
