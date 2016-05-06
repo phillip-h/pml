@@ -19,12 +19,13 @@ Evaluate the totient function for `val`. If `primes` is not provided,
 it will be created using `primeSieve` from `primes.hpp`.
 
 ```C++
-    vector<uint64_t> totient(uint64_t val, vector<uint64_t> factors);
+    vector<uint64_t> totient(uint64_t val);
+    vector<uint64_t> totient(uint64_t val, vector<uint64_t> primes);
 ```
 
-Evaluate the totient of `val` with the prime factorization of `factors`.
-This function is called by the other two, which computer the factorization
-beforehand.
+Evalute the totient function for `val` using a recursive approach.
+This may be faster, but risks a stack overflow with large values and /
+or a small stack size.
 
 # extras
 

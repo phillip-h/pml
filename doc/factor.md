@@ -17,12 +17,17 @@ factorization.
 These are the functions you will probably want to use.
 
 ```C++
-    uint64_t gdc(uint64_t a, uint64_t b);
+    uint64_t gcd(uint64_t a, uint64_t b);
+    uint64_t gcd_r(uint64_t a, uint64_t b);
     uint64_t lcm(uint64_t a, uint64_t b);
 ```
 
 Find the greatest common divisor and the least common multiple of `a` and
-`b` respectively. `lcm()` calls `gdc()` as part of it's operation.
+`b` respectively. `lcm()` calls `gcd()` as part of it's operation.
+
+`gcd_r()` uses a recursive implementation of Stein's algorithm 
+(the normal `gcd()` uses Euclid's algorithm), which is faster, but
+risks stack overflow with large values and / or a small stack size.
 
 ```C++
     vector<uint64_t> quick_factorize(uint64_t val);
