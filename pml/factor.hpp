@@ -5,10 +5,10 @@
 
 #include "prime.hpp"
 
-inline uint64_t gdc(uint64_t a, uint64_t b)
+inline uint64_t gcd(uint64_t a, uint64_t b)
 {
     if (a < b)
-        return gdc(b, a);
+        return gcd(b, a);
 
     uint64_t mod;
     while (b != 0)
@@ -20,13 +20,39 @@ inline uint64_t gdc(uint64_t a, uint64_t b)
     return a;
 }
 
+inline uint64_t gcd_r(uint64_t a, uint64_t b)
+{
+    if (a == b)
+        return a;
+    if (b == 0)
+        return a;
+    if (a == 0)
+        return b;
+
+    if ((a & 0x01) == 0) {
+        if ((b & 0x01) == 1)
+            return gcd_r(a >> 1, b);
+        else
+            return gcd_r(a >> 1, b >> 1) << 1;
+    }
+
+    if ((a & 0x01) == 0)
+        return gcd_r(a, b >> 1);
+    
+    if (a > b)
+        return gcd_r((a - b) >> 1, b);
+
+    return gcd_r((b - a) >> 1, a);
+
+}
+
 inline uint64_t lcm(uint64_t a, uint64_t b)
 {
     if (a == 0 && b == 0)
         return 0;
 
     uint64_t num = a * b;
-    return num / gdc(a, b);
+    return num / gcd(a, b);
 }
 
 inline uint64_t rho_f(uint64_t val)
@@ -44,7 +70,7 @@ inline uint64_t rho_f(uint64_t val)
         for (unsigned i = 0; i < cycles && factor <= 1; i++)
         {
             x = (x * x + 1) % val;    
-            factor = gdc(x - x_fixed, val);
+            factor = gcd(x - x_fixed, val);
         }
 
         cycles *= 2;

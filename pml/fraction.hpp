@@ -38,7 +38,7 @@ inline void reduce(int64_t &num, int64_t &den)
     uint64_t denv = den >= 0 ? den : -1 * den;
 
     uint64_t div;
-    while ((div = gdc(numv, denv)) != 1) 
+    while ((div = gcd(numv, denv)) != 1) 
     {
         numv /= div;
         denv /= div;
@@ -52,7 +52,7 @@ inline bool is_reduced(int64_t num, int64_t den)
 {
     num = abs(num);
     den = abs(den);
-    return gdc(num, den) == 1;
+    return gcd(num, den) == 1;
 }
 
 inline void fractionize(double dec, int64_t &num, int64_t &den)
