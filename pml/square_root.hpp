@@ -37,6 +37,7 @@ inline void expand_root(uint64_t &num, uint64_t &den,
     if (!fraction.size()) {
         num = 0;
         den = 0;
+        return;
     }
 
     for (unsigned i = 1; i < iterations; i++)
