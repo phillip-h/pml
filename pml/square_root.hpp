@@ -40,9 +40,10 @@ inline void expand_root(uint64_t &num, uint64_t &den,
         return;
     }
 
+    const auto mark = fraction.end();
     for (unsigned i = 1; i < iterations; i++)
         fraction.insert(fraction.end(), 
-                        fraction.begin() + 1, fraction.end());
+                        fraction.begin() + 1, mark);
     num = 1;
     den = fraction.at(fraction.size() - 1);
     for (auto it = fraction.rbegin() + 1; it != fraction.rend() - 1; it++)
@@ -106,9 +107,10 @@ inline long double expand_root_float(std::vector<uint64_t> fraction,
         return 0.0;
     }
 
+    const auto mark = fraction.end();
     for (unsigned i = 1; i < iterations; i++)
         fraction.insert(fraction.end(), 
-                        fraction.begin() + 1, fraction.end());
+                        fraction.begin() + 1, mark);
     long double num = 1.0;
     long double den = fraction.at(fraction.size() - 1);
     for (auto it = fraction.rbegin() + 1; it != fraction.rend() - 1; it++)
