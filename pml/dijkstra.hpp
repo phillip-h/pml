@@ -9,7 +9,8 @@
 
 template <class T> directed_graph<T> dijkstra(directed_graph<T> &graph, 
                                               size_t start,
-                                              T infinity = 0xfffff, T zero = 0)
+                                              T infinity = 0xfffff,
+                                              T zero = 0)
 {
     typedef std::pair<size_t, T> vertex_t;
 
