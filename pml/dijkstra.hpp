@@ -3,7 +3,7 @@
 
 #include <algorithm>
 #include <map>
-#include <vector>
+#include <set>
 
 #include "directed_graph.hpp"
 
@@ -13,9 +13,13 @@ template <class T> directed_graph<T> dijkstra(directed_graph<T> &graph,
 {
     typedef std::pair<size_t, T> vertex_t;
 
-    std::vector<size_t> queue;
     std::map<size_t, T> entries; 
     directed_graph<T> distance = directed_graph<T>(graph);
+    auto comp = [&entries](const size_t &a, const size_t &b)
+    {
+        return entries.at(a) < entries.at(b);
+    };
+    std::multiset<size_t, decltype(comp)> queue(comp);
     
     std::vector<T> verticies = graph.verticies();
     for (size_t i = 0; i < verticies.size(); i++)
@@ -25,7 +29,7 @@ template <class T> directed_graph<T> dijkstra(directed_graph<T> &graph,
         } else {
             entries.insert(vertex_t(i, infinity));
         }
-        queue.push_back(i);
+        queue.insert(i);
         distance.vertex(i) = 0;
     }
 
@@ -34,12 +38,7 @@ template <class T> directed_graph<T> dijkstra(directed_graph<T> &graph,
     T tmp_cost;
     while (!queue.empty())
     {
-        std::sort(queue.begin(), queue.end(), [&entries](const size_t &a, const size_t &b)
-              {
-                return entries.at(a) < entries.at(b);
-              });
-
-        current = queue.at(0);
+        current = *queue.begin();
         queue.erase(queue.begin());
 
         distance.vertex(current) = entries.at(current);
