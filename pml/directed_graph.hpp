@@ -63,6 +63,22 @@ template <class T> class directed_graph final
         return ret;
     }
 
+    void clear_edge(size_t id)
+    {
+        graph_.at(id).second.clear();
+    }
+    void clear_connection(size_t id){ clear_edge();}
+
+    void clear_edges()
+    {
+        for (vertex_t &v : graph_)
+        {
+            v.second.clear();
+        }
+    }
+    void clear_connections()
+    { clear_edges();}
+
 };
 
 #endif

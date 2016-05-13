@@ -1,8 +1,7 @@
 #ifndef __PML_DIJKSTRA__
 #define __PML_DIJKSTRA__
 
-#include <algorithm>
-#include <map>
+#include <queue>
 #include <set>
 
 #include "directed_graph.hpp"
@@ -14,46 +13,57 @@ template <class T> directed_graph<T> dijkstra(directed_graph<T> &graph,
 {
     typedef std::pair<size_t, T> vertex_t;
 
-    std::map<size_t, T> entries; 
-    directed_graph<T> distance = directed_graph<T>(graph);
-    auto comp = [&entries](const size_t &a, const size_t &b)
+    auto distance = directed_graph<T>(graph);
+    distance.clear_edges();
+
+    const auto comp = [](const vertex_t &a, const vertex_t &b)
     {
-        return entries.at(a) < entries.at(b);
+        return a.second > b.second;
     };
-    std::multiset<size_t, decltype(comp)> queue(comp);
+    std::priority_queue<vertex_t, std::vector<vertex_t>, 
+                        decltype(comp)> queue(comp);
     
-    std::vector<T> verticies = graph.verticies();
-    for (size_t i = 0; i < verticies.size(); i++)
+    const auto len = graph.verticies().size();
+    for (size_t i = 0; i < len; i++)
     {
         if (i == start) {
-            entries.insert(vertex_t(i, zero));
+            distance.vertex(i) = zero;
+            queue.emplace(i, zero);
         } else {
-            entries.insert(vertex_t(i, infinity));
+            distance.vertex(i) = infinity;
+            queue.emplace(i, infinity);
         }
-        queue.insert(i);
-        distance.vertex(i) = 0;
     }
 
-    size_t current;
+    vertex_t current;
     std::vector<size_t> edges;
+    std::set<size_t> complete;
     T tmp_cost;
+    size_t tmp_pos;
     while (!queue.empty())
     {
-        current = *queue.begin();
-        queue.erase(queue.begin());
+        current = queue.top();
+        queue.pop();
 
-        distance.vertex(current) = entries.at(current);
+        if (complete.find(current.first) != complete.end())
+            continue;
 
-        edges = graph.edges(current);
+        complete.insert(current.first);
+
+        edges = graph.edges(current.first);
         for (size_t i = 0; i < edges.size(); i++)
         {
-           if (distance.vertex(edges.at(i)) != 0)
-               continue;
-
-           tmp_cost = entries.at(current) + graph.vertex(edges.at(i)); 
+            tmp_pos = edges.at(i);
            
-           if (tmp_cost < entries.at(edges.at(i)))
-               entries.at(edges.at(i)) = tmp_cost;
+            tmp_cost = distance.vertex(current.first) + 
+                       graph.vertex(tmp_pos); 
+           
+            if (tmp_cost < distance.vertex(tmp_pos)) {
+                distance.clear_edge(tmp_pos);
+                distance.add_edge(tmp_pos, current.first);
+                distance.vertex(tmp_pos) = tmp_cost;
+                queue.emplace(tmp_pos, tmp_cost);
+            }
         }
     }
 
