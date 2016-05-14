@@ -30,13 +30,11 @@ template <class T> class directed_graph final
         graph_.push_back(vertex_t(vert, std::vector<size_t>()));
         return graph_.size() - 1;
     }
-    size_t add_node(T node) { return add_vertex(node);}
 
     T& vertex(size_t id)
     {
         return graph_.at(id).first;
     }
-    T& node(size_t id) { return vertex(id);}
 
     void add_edge(size_t a, size_t b)
     {
@@ -44,7 +42,6 @@ template <class T> class directed_graph final
             return;
         graph_.at(a).second.push_back(b);
     }
-    void connect(size_t a, size_t b) { add_edge(a, b);}
 
     std::vector<size_t> edges(size_t id)
     {
@@ -52,9 +49,8 @@ template <class T> class directed_graph final
             return std::vector<size_t>();
         return graph_.at(id).second;
     }
-    std::vector<size_t> connections(size_t id) { return edges(id);}
 
-    std::vector<T> verticies()
+    std::vector<T> vertices()
     {
         std::vector<T> ret;
         for (vertex_t v : graph_)
@@ -66,7 +62,6 @@ template <class T> class directed_graph final
     {
         graph_.at(id).second.clear();
     }
-    void clear_connection(size_t id){ clear_edge();}
 
     void clear_edges()
     {
@@ -75,8 +70,6 @@ template <class T> class directed_graph final
             v.second.clear();
         }
     }
-    void clear_connections()
-    { clear_edges();}
 
 };
 
