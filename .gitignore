@@ -1,6 +1,8 @@
 module
 example
 test/pml-tests
+test/*.o
+test/*.d
 *~
 *.swp
 *.swo
