@@ -23,7 +23,7 @@ template <class T> directed_graph<T> dijkstra(directed_graph<T> &graph,
     std::priority_queue<vertex_t, std::vector<vertex_t>, 
                         decltype(comp)> queue(comp);
     
-    const auto len = graph.verticies().size();
+    const auto len = graph.vertices().size();
     for (size_t i = 0; i < len; i++)
     {
         if (i == start) {
