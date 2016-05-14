@@ -5,7 +5,6 @@
 #include <vector>
 #include <utility>
 
-
 template <class T> class directed_graph final
 {
     typedef std::pair<T, std::vector<size_t>> vertex_t;
