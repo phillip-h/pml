@@ -10,8 +10,6 @@ Each header can be separated and bundled with it's dependencies into
 a nice package, ready to be included in your project. See "Usage" for
 more information.
 
-The library is under active development and is quite small at the moment.
-
 # usage
 
 First, clone the repository. Once you have your local copy, run
