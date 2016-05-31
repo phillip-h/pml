@@ -43,14 +43,14 @@ template <class T> class directed_graph final
         graph_.at(a).second.push_back(b);
     }
 
-    std::vector<size_t> edges(size_t id)
+    std::vector<size_t> edges(size_t id) const
     {
         if (id >= graph_.size())
             return std::vector<size_t>();
         return graph_.at(id).second;
     }
 
-    std::vector<T> vertices()
+    std::vector<T> vertices() const
     {
         std::vector<T> ret;
         for (vertex_t v : graph_)
