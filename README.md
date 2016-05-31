@@ -26,3 +26,7 @@ the files you actually need. Alternatively, you can just copy the entire
 Each module has a documentation file in `doc/` that describes it's purpose
 and usage. You should be able to learn how to do just about anything by
 referring to these files.
+
+# license
+
+Licensed under the MIT License, see LICENSE for more information.
